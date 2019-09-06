@@ -84,9 +84,12 @@ def eval_analogy_questions(data_processor, embeddings, use_cuda, top_k=4,embeddi
             c_emb = embeddings(c)
 
 
-        # We expect that d's embedding vectors on the unit hyper-sphere is
+        # We expect that d's embedding vectors analogies
         # near: c_emb + (b_emb - a_emb), which has the shape [N, emb_dim].
         d_emb = c_emb + b_emb - a_emb
+        
+        # Normalize d vector
+        d_emb = F.normalize(d_emb)
 
         # Compute cosine distance of d_emb to each vocab word
         # dist has shape [N, vocab_size]
